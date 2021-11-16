@@ -2,7 +2,8 @@ import TODO_STATUS from "@/constants/todo/todoStatus";
 import LIST_FILTER from "@/constants/todo/listFilter";
 import { 
     UPDATE_TODO, UPDATE_TODO_BY_ID,
-    ADD_TODO, TOGGLE_TODO_BY_ID,
+    ADD_TODO, 
+    TOGGLE_TODO_BY_ID, TOGGLE_ALL_TODOS_STATUS,
     DELETE_TODO_BY_ID, DELETE_ALL_COMPLETED_TODOS,
     CHANGE_LIST_FILTER
 } from "@/store/modules/todo/mutation-types";
@@ -66,6 +67,15 @@ const mutations = {
         const targetTodo = state.todos.find(todo => todo.id === id);
         // TODO: 이렇게 작성해도 변경 사항이 반영되는지 확인
         targetTodo.status = targetTodo.status === TODO_STATUS.ACTIVE ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE;
+    },
+    [TOGGLE_ALL_TODOS_STATUS](state){
+        const totalCount = state.todos.length;
+        const completedTodos = state.todos.filter(completedPredicate);
+        if(totalCount === completedTodos.length){
+            completedTodos.map(todo => todo.status = TODO_STATUS.ACTIVE);
+            return;
+        } 
+        state.todos.map(todo => todo.status = TODO_STATUS.COMPLETED);
     },
 
     [DELETE_TODO_BY_ID](state, payload){
