@@ -1,31 +1,36 @@
-import TODO_STATUS from "@/constants/todoStatus";
+import TODO_STATUS from "@/constants/todo/todoStatus";
+import LIST_FILTER from "@/constants/todo/listFilter";
 import { 
     ADD_TODO, DELETE_TODO, TOGGLE_TODO,
     DELETE_ALL_COMPLETED_TODOS
 } from "@/store/modules/todo/mutation-types";
 
 const activePredicate = todo => todo.status === TODO_STATUS.ACTIVE;
-const completedPredicate = todo => todo.state === TODO_STATUS.COMPLETED;
+const completedPredicate = todo => todo.status === TODO_STATUS.COMPLETED;
 
 const state = () => ({
-    filter: null,
-    todos: [],
+    listFilter: LIST_FILTER.ALL,
+    todos: [
+        {id:0, content:'a', status:TODO_STATUS.COMPLETED},
+        {id:1, content:'b', status:TODO_STATUS.ACTIVE},
+    ],
+    _idx: 2
 });
 
 // 속성 유형 접근   - 캐싱 O
 // 메서드 유형 접근 - 캐싱 X
 const getters = {
-    todos: (state) => {
-        return state.todos
-    },
     activeTodos: (state) => () => {
-        return state.filter(activePredicate);
+        return state.todos.filter(activePredicate);
     },
     activeTodoCount: (state, getters) => {
         return getters.activeTodos().length;
     },
     completedTodos: (state) => () => {
-        return state.filter(completedPredicate);
+        return state.todos.filter(completedPredicate);
+    },
+    completedTodoCount: (state, getters) => {
+        return getters.completedTodos().length;
     }
 };
 
@@ -38,7 +43,7 @@ const actions = {
 const mutations = {
     [ADD_TODO](state, payload){
         const content = payload.content;
-        state.todos.push({ id, status: TODO_STATUS.ACTIVE, content })
+        state.todos.push({ id : state._idx++, status: TODO_STATUS.ACTIVE, content })
     },
     [DELETE_TODO](state, payload){
         const id = payload.id;
