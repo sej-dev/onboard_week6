@@ -1,4 +1,10 @@
-export const ADD_TODO = 'ADD_TODO';
-export const DELETE_TODO = 'DELETE_TODO';
-export const TOGGLE_TODO = 'TOGGLE_TODO';
-export const DELETE_ALL_COMPLETED_TODOS = 'DELETE_ALL_COMPLETED_TODOS';
+export const UPDATE_TODO = 'updateTodo';
+export const UPDATE_TODO_BY_ID = 'updateTodoById';
+
+export const ADD_TODO = 'addTodo';
+export const TOGGLE_TODO_BY_ID = 'toggleTodoById';
+
+export const DELETE_TODO_BY_ID = 'deleteTodoById';
+export const DELETE_ALL_COMPLETED_TODOS = 'deleteAllCompletedTodos';
+
+export const CHANGE_LIST_FILTER = 'changeListFilter';

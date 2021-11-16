@@ -1,4 +1,4 @@
 export default {
-    ACTIVE: 'ACTIVE',
-    COMPLETED: 'COMPLETED',
+    ACTIVE: false,
+    COMPLETED: true,
 };
