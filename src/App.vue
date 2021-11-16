@@ -1,21 +1,21 @@
 <template>
   <div id="app">
     <section class="todoapp">
-      <the-header></the-header>
-      <todo-list></todo-list>
+      <todo-input />
+      <todo-container />
     </section>
-    <the-footer></the-footer>
+    <the-footer />
   </div>
 </template>
 
 <script>
 import TheFooter from '@/components/TheFooter.vue';
-import TheHeader from '@/components/TheHeader.vue';
-import TodoList from '@/components/TodoList.vue';
+import TodoContainer from '@/components/TodoContainer.vue';
+import TodoInput from '@/components/TodoInput.vue';
 
 export default {
   name: 'App',
-  components: { TheHeader, TodoList, TheFooter },
+  components: { TheFooter, TodoContainer, TodoInput },
 }
 </script>
 
