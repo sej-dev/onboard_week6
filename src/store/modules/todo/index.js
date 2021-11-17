@@ -8,8 +8,8 @@ const completedPredicate = todo => todo.status === TODO_STATUS.COMPLETED;
 const state = () => ({
     listFilter: LIST_FILTER.ALL,
     todos: [
-        {id:0, content:'a', status:TODO_STATUS.COMPLETED},
-        {id:1, content:'b', status:TODO_STATUS.ACTIVE},
+        // {id:0, content:'a', status:TODO_STATUS.COMPLETED},
+        // {id:1, content:'b', status:TODO_STATUS.ACTIVE},
     ],
     _sequence: 2
 });
@@ -17,6 +17,10 @@ const state = () => ({
 // 속성 유형 접근   - 캐싱 O
 // 메서드 유형 접근 - 캐싱 X
 const getters = {
+    hasTodos: (state) => {
+        return state.todos.length > 0
+    },
+
     getTodoById: (state) => (id) => {
         return state.todos.find(todo => todo.id === id);
     },
@@ -32,7 +36,7 @@ const getters = {
         return state.todos.filter(completedPredicate);
     },
     completedTodoCount: (state, getters) => {
-        return getters.getCompletedTodos().length;
+        return state.todos.length - getters.activeTodoCount;
     }
 };
 
@@ -64,11 +68,11 @@ const mutations = {
         const completedTodos = state.todos.filter(completedPredicate);
         
         if(totalCount === completedTodos.length){
-            completedTodos.map(todo => todo.status = TODO_STATUS.ACTIVE);
+            completedTodos.forEach(todo => todo.status = TODO_STATUS.ACTIVE);
             return;
         } 
         
-        state.todos.map(todo => todo.status = TODO_STATUS.COMPLETED);
+        state.todos.forEach(todo => todo.status = TODO_STATUS.COMPLETED);
     },
 
     [types.DELETE_TODO_BY_ID](state, payload){

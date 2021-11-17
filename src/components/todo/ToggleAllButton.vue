@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="hasTodos">
     <input 
       id="toggle-all" 
       class="toggle-all" 
@@ -21,7 +21,7 @@ export default {
          ...mapState({
             totalTodoCount: state => state.todos.length,
         }),
-        ...mapGetters(['completedTodoCount']),
+        ...mapGetters(['hasTodos', 'completedTodoCount']),
         
         isAllTodoActive(){
             return this.totalTodoCount === this.completedTodoCount;

@@ -46,9 +46,8 @@ export default {
     computed: {
         ...mapState({
             curFilter: state => state.listFilter,
-            hasTodos: state => state.todos.length > 0,
         }),
-        ...mapGetters(['completedTodoCount', 'activeTodoCount']),
+        ...mapGetters(['hasTodos', 'completedTodoCount', 'activeTodoCount']),
 
         hasCompletedTodo(){
             return this.completedTodoCount > 0;
