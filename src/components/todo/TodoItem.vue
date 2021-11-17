@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <li :class="{ completed: status, editing: isEditing }">
     <div class="view">
-      <input 
+      <input
         :checked="status"
-        class="toggle" 
-        type="checkbox" 
+        class="toggle"
+        type="checkbox"
         @change="toggleStatus"
       >
       <label @dblclick="editContent">{{ todoContent }}</label>
@@ -14,80 +14,82 @@
       />
     </div>
     <base-input
-      v-if="isEditing" 
+      v-if="isEditing"
       v-model="todoContent"
       class="edit"
       v-on="$listeners"
       @blur="updateTodo"
-      @keyup.enter="updateTodo"
+      @keyup.enter="updateTodo($event)"
     />
-  </div>
+  </li>
 </template>
 
 <script>
-import BaseInput from '@/components/base/BaseInput.vue';
+import BaseInput from "@/components/base/BaseInput.vue";
 
-import { createNamespacedHelpers } from 'vuex'
-const { mapMutations } = createNamespacedHelpers('todo')
+import { createNamespacedHelpers } from "vuex";
+const { mapMutations } = createNamespacedHelpers("todo");
 
 import TODO_STATUS from "@/constants/todo/todoStatus";
 
 export default {
-    name: 'TodoItem',
-    components: { BaseInput },
-    props: {
-        id: Number,
-        content: String,
-        status: {
-            validator: function(value){
-                return TODO_STATUS[value] !== null;
-            }
-        }
+  name: "TodoItem",
+  components: { BaseInput },
+  props: {
+    id: Number,
+    content: String,
+    status: {
+      validator: function (value) {
+        return TODO_STATUS[value] !== null;
+      },
     },
-    data: function(){
-        return {
-            todoContent: this.content,
-            isEditing: false,
-        }
+  },
+  data: function () {
+    return {
+      todoContent: this.content,
+      isEditing: false,
+    };
+  },
+  methods: {
+    ...mapMutations(["deleteTodoById", "updateTodoById"]),
+
+    editContent() {
+      this.isEditing = true;
     },
-    updated(){
-      console.log(this.status)
+
+    toggleStatus() {
+      this.todoStatus = !this.todoStatus;
+
+      this.updateTodoById({
+        id: this.id,
+        content: this.todoContent,
+        status: !this.status,
+      });
     },
-    methods: {
-        ...mapMutations(['deleteTodoById', 'updateTodoById']),
 
-        editContent(){
-            this.isEditing = true;
-            this.$emit('start-edit', this.id);
-        },
+    updateTodo() {
+      
+      if(this.isEditing === false) return;
+ 
+      if(this.todoContent === ''){
+        this.deletTodo();
+      } 
+      else {
+        this.updateTodoById({
+          id: this.id,
+          content: this.todoContent,
+          status: this.status,
+        });
+      }
 
-        toggleStatus(){
-          this.todoStatus = !this.todoStatus;
+      this.isEditing = false;
+    },
 
-          this.updateTodoById({
-              id: this.id,
-              content: this.todoContent,
-              status: !this.status
-          });
-        },
-
-        updateTodo(){
-            this.updateTodoById({
-                id: this.id,
-                content: this.todoContent,
-                status: this.todoStatus
-            });
-            this.isEditing = false;
-            this.$emit('end-edit', this.id);
-        },
-
-        deletTodo(){
-            this.deleteTodoById(this.id);
-        }
-    }
-}
+    deletTodo() {
+      this.deleteTodoById(this.id);
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

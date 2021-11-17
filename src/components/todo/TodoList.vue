@@ -3,22 +3,16 @@
     v-show="hasTodos"
     class="todo-list"
   >
-    <li
+    <todo-item 
       v-for="todo in todosFiltered"
-      :key="todo.id" 
-      :class="{ completed: todo.status, editing: editedTodoId === todo.id}"
-    >
-      <todo-item 
-        v-bind="todo" 
-        @start-edit="setEditedTodoId"
-        @end-edit="setEditedTodoId(null)"
-      />
-    </li>
+      :key="todo.id"
+      v-bind="todo" 
+    />
   </ul>
 </template>
 
 <script>
-import TodoItem from './TodoItem.vue';
+import TodoItem from '@/components/todo/TodoItem.vue';
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapGetters } = createNamespacedHelpers('todo')
@@ -28,11 +22,6 @@ import LIST_FILTER from "@/constants/todo/listFilter";
 export default {
     name: 'TodoList',
     components: { TodoItem },
-    data: function(){
-        return {
-            editedTodoId: null,
-        }
-    },
     computed: {
         ...mapState({
             hasTodos: state => state.todos.length > 0,
@@ -49,11 +38,6 @@ export default {
             }
         }
     },
-    methods: {
-        setEditedTodoId(id){
-            this.editedTodoId = id;
-        },
-    }
 }
 </script>
 
