@@ -5,7 +5,7 @@
       class="toggle-all" 
       type="checkbox"
       :checked="isAllTodoActive"
-      @click="toggleAllTodosStatus"
+      @change="toggleAllTodosStatus"
     >        
     <label for="toggle-all">Mark all as complete</label>
   </div>
@@ -22,6 +22,7 @@ export default {
             totalTodoCount: state => state.todos.length,
         }),
         ...mapGetters(['completedTodoCount']),
+        
         isAllTodoActive(){
             return this.totalTodoCount === this.completedTodoCount;
         }

@@ -2,11 +2,12 @@
   <div>
     <div class="view">
       <input 
-        v-model="status" 
+        :checked="status"
         class="toggle" 
-        type="checkbox"
+        type="checkbox" 
+        @change="toggleStatus"
       >
-      <label @dblclick="editContent">{{ content }}</label>
+      <label @dblclick="editContent">{{ todoContent }}</label>
       <button
         class="destroy"
         @click="deletTodo"
@@ -14,11 +15,11 @@
     </div>
     <base-input
       v-if="isEditing" 
-      v-model="content"
+      v-model="todoContent"
       class="edit"
       v-on="$listeners"
-      @blur="updateContent"
-      @keyup.enter="updateContent"
+      @blur="updateTodo"
+      @keyup.enter="updateTodo"
     />
   </div>
 </template>
@@ -45,8 +46,12 @@ export default {
     },
     data: function(){
         return {
+            todoContent: this.content,
             isEditing: false,
         }
+    },
+    updated(){
+      console.log(this.status)
     },
     methods: {
         ...mapMutations(['deleteTodoById', 'updateTodoById']),
@@ -56,10 +61,21 @@ export default {
             this.$emit('start-edit', this.id);
         },
 
-        updateContent(){
+        toggleStatus(){
+          this.todoStatus = !this.todoStatus;
+
+          this.updateTodoById({
+              id: this.id,
+              content: this.todoContent,
+              status: !this.status
+          });
+        },
+
+        updateTodo(){
             this.updateTodoById({
                 id: this.id,
-                content: this.content
+                content: this.todoContent,
+                status: this.todoStatus
             });
             this.isEditing = false;
             this.$emit('end-edit', this.id);

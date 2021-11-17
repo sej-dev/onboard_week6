@@ -4,6 +4,7 @@
     class="footer"
   >
     <span class="todo-count"> {{ activeTodoCount }} items left </span>
+
     <ul class="filters">
       <li
         v-for="filter in filters"
@@ -18,6 +19,7 @@
         </a>
       </li>
     </ul>
+    
     <button 
       v-show="hasCompletedTodo" 
       class="clear-completed" 
