@@ -15,7 +15,7 @@ export default {
             const vm = this;
             return Object.assign({}, this.$listeners, {
                 input: function (evt) {
-                    vm.$emit("input", evt.target.value);
+                    vm.$emit("input", evt.target.value.trim());
                 },
             });
         },

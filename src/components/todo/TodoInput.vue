@@ -31,9 +31,9 @@ export default {
     ...mapMutations(['addTodo']),
     
     addNewTodo(){
-
-      if(this.content.trim().length === 0) return;
       
+      if(this.content === '') return;
+
       this.addTodo(this.content);
 
       this.content = '';
