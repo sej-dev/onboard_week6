@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import TodoList from '@/components/TodoList.vue';
-import TodoFooter from '@/components/TodoFooter.vue';
+import TodoList from '@/components/todo/TodoList.vue';
+import TodoFooter from '@/components/todo/TodoFooter.vue';
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo')

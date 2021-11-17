@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import BaseInput from './BaseInput.vue';
+import BaseInput from '@/components/base/BaseInput.vue';
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapMutations } = createNamespacedHelpers('todo')

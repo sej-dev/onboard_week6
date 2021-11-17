@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import TheFooter from '@/components/TheFooter.vue';
-import TodoContainer from '@/components/TodoContainer.vue';
-import TodoInput from '@/components/TodoInput.vue';
+import TheFooter from '~/src/components/layout/TheFooter.vue';
+import TodoContainer from '~/src/components/todo/TodoContainer.vue';
+import TodoInput from '~/src/components/todo/TodoInput.vue';
 
 export default {
   name: 'App',
