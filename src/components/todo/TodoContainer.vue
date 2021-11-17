@@ -11,7 +11,7 @@
 <script>
 import TodoList from '@/components/todo/TodoList.vue';
 import TodoFooter from '@/components/todo/TodoFooter.vue';
-import ToggleAllButton from './ToggleAllButton.vue';
+import ToggleAllButton from '@/components/todo/ToggleAllButton.vue';
 
 export default {
     name: 'TodoContainer',

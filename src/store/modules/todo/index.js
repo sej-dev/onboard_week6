@@ -8,8 +8,8 @@ const completedPredicate = todo => todo.status === TODO_STATUS.COMPLETED;
 const state = () => ({
     listFilter: LIST_FILTER.ALL,
     todos: [
-        // {id:0, content:'a', status:TODO_STATUS.COMPLETED},
-        // {id:1, content:'b', status:TODO_STATUS.ACTIVE},
+        {id:0, content:'a', status:TODO_STATUS.COMPLETED},
+        {id:1, content:'b', status:TODO_STATUS.ACTIVE},
     ],
     _sequence: 2
 });
