@@ -4,11 +4,12 @@
     <base-input
       v-model="content"
       class="new-todo"
-      @blur="makeTodo"
       placeholder="What needs to be done?"
+      :autofocus="true"
+      @blur="makeTodo" 
       @keyup.enter="makeTodo" 
-      v-on="$listeners" 
-      :autofocus="true" />
+      v-on="$listeners"
+    />
   </header>
 </template>
 

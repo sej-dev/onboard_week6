@@ -1,18 +1,19 @@
 <template>
   <section class="main">
-        <input 
-            id="toggle-all" 
-            class="toggle-all" 
-            type="checkbox"
-            :checked="isAllTodoActive"
-            @click="toggleAllTodosStatus" />
+    <input 
+      id="toggle-all" 
+      class="toggle-all" 
+      type="checkbox"
+      :checked="isAllTodoActive"
+      @click="toggleAllTodosStatus"
+    >
             
-        <label for="toggle-all">Mark all as complete</label>
+    <label for="toggle-all">Mark all as complete</label>
         
-        <todo-list />
+    <todo-list />
 
-        <todo-footer />
-    </section>
+    <todo-footer />
+  </section>
 </template>
 
 <script>

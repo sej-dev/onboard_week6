@@ -1,19 +1,28 @@
 <template>
-  <footer class="footer" v-show="hasTodos">
+  <footer
+    v-show="hasTodos"
+    class="footer"
+  >
     <span class="todo-count"> {{ activeTodoCount }} items left </span>
     <ul class="filters">
-       <li v-for="filter in filters" :key="filter">
-        <a href="#" 
-            :class="{ selected : filter === curFilter }" 
-            @click.prevent="changeListFilter(filter)">
-            {{ filter | mapFirstCharUpper }}
+      <li
+        v-for="filter in filters"
+        :key="filter"
+      >
+        <a
+          href="#" 
+          :class="{ selected : filter === curFilter }" 
+          @click.prevent="changeListFilter(filter)"
+        >
+          {{ filter | mapFirstCharUpper }}
         </a>
       </li>
     </ul>
     <button 
-        class="clear-completed" 
-        v-show="hasCompletedTodo" 
-        @click="deleteAllCompletedTodos">
+      v-show="hasCompletedTodo" 
+      class="clear-completed" 
+      @click="deleteAllCompletedTodos"
+    >
       Clear completed
     </button>
   </footer>

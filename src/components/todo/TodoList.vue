@@ -1,24 +1,35 @@
 <template>
-    <ul class="todo-list" v-show="hasTodos">
-        <li v-for="todo in todosFiltered"
-            :key="todo.id" 
-            :class="{ completed: todo.status, editing: todoEdited.id === todo.id}">
-            <div class="view">
-                <input 
-                    class="toggle" 
-                    type="checkbox" 
-                    v-model="todo.status">
-                <label @dblclick="editTodo(todo.id)">{{ todo.content }}</label>
-                <button class="destroy" @click="deleteTodo(todo.id)"></button>
-            </div>
-            <base-input class="edit" 
-                v-if="todoEdited.id === todo.id"
-                v-model="todoEdited.content"
-                v-on="$listeners"
-                @blur="updateTodo"
-                @keyup.enter="updateTodo" />
-        </li>
-    </ul>
+  <ul
+    v-show="hasTodos"
+    class="todo-list"
+  >
+    <li
+      v-for="todo in todosFiltered"
+      :key="todo.id" 
+      :class="{ completed: todo.status, editing: todoEdited.id === todo.id}"
+    >
+      <div class="view">
+        <input 
+          v-model="todo.status" 
+          class="toggle" 
+          type="checkbox"
+        >
+        <label @dblclick="editTodo(todo.id)">{{ todo.content }}</label>
+        <button
+          class="destroy"
+          @click="deleteTodo(todo.id)"
+        />
+      </div>
+      <base-input
+        v-if="todoEdited.id === todo.id" 
+        v-model="todoEdited.content"
+        class="edit"
+        v-on="$listeners"
+        @blur="updateTodo"
+        @keyup.enter="updateTodo"
+      />
+    </li>
+  </ul>
 </template>
 
 <script>
