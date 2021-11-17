@@ -1,6 +1,6 @@
 <template>
     <ul class="todo-list" v-show="hasTodos">
-        <li v-for="todo in todoFiltered"
+        <li v-for="todo in todosFiltered"
             :key="todo.id" 
             :class="{ completed: todo.status, editing: todoEdited.id === todo.id}">
             <div class="view">
@@ -8,76 +8,69 @@
                     class="toggle" 
                     type="checkbox" 
                     v-model="todo.status">
-                <label @dblclick="setEditMode(todo.id)">{{ todo.content }}</label>
+                <label @dblclick="editTodo(todo.id)">{{ todo.content }}</label>
                 <button class="destroy" @click="deleteTodo(todo.id)"></button>
             </div>
             <base-input class="edit" 
                 v-if="todoEdited.id === todo.id"
                 v-model="todoEdited.content"
                 v-on="$listeners"
-                @blur="updateTodoById"
-                @keyup.enter="updateTodoById" />
+                @blur="updateTodo"
+                @keyup.enter="updateTodo" />
         </li>
     </ul>
 </template>
 
 <script>
+import BaseInput from '@/components/BaseInput.vue';
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo')
+
 import LIST_FILTER from "@/constants/todo/listFilter";
-import BaseInput from './BaseInput.vue';
+
+const INIT_TODO_DATA = {
+    content: '',
+    id: null,
+    status: null,
+ };
 
 export default {
-    components: { BaseInput },
     name: 'TodoList',
+    components: { BaseInput },
     data: function(){
         return {
-            todoEdited: {
-                content: '',
-                id: null
-            }
+            todoEdited: INIT_TODO_DATA
         }
     },
     computed: {
-        contentEdited: {
-            get(){
-                return this.$store.state.todo.content;
-            },
-            set(content){
-                this.$store.commit({
-                    type: 'todo/updateTodo',
-                    content
-                });
-            }
-        },
-        todoFiltered(){
-            const listFilter = this.$store.state.todo.listFilter;
-            switch (listFilter) {
+        ...mapState({
+            hasTodos: state => state.todos.length > 0,
+            curFilter: state => state.listFilter,
+        }),
+        ...mapGetters(['getTodoById', 'getActiveTodos', 'getCompletedTodos']),
+
+        todosFiltered(){
+            switch (this.curFilter) {
                 case LIST_FILTER.ALL: return this.$store.state.todo.todos;
-                case LIST_FILTER.ACTIVE: return this.$store.getters['todo/activeTodos']();
-                case LIST_FILTER.COMPLETED: return this.$store.getters['todo/completedTodos']();
+                case LIST_FILTER.ACTIVE: return this.$store.getters['todo/getActiveTodos']();
+                case LIST_FILTER.COMPLETED: return this.$store.getters['todo/getCompletedTodos']();
                 default: return [];
             }
-        },
-        hasTodos(){
-            return this.$store.state.todo.todos.length > 0;
-        },
+        }
     },
     methods: {
-        deleteTodo(id){
-            this.$store.commit({
-                type: 'todo/deleteTodoById',
-                id
-            });
+        ...mapMutations(['deleteTodoById', 'updateTodoById']),
+
+        editTodo(id){
+            this.todoEdited = this.getTodoById(id);
         },
-        setEditMode(id){
-            this.todoEdited = this.$store.getters['todo/todoById'](id);
+        updateTodo(){
+            if(this.todoEdited.id == null) return;
+            
+            this.updateTodoById(this.todoEdited);
+            this.todoEdited = INIT_TODO_DATA;
         },
-        updateTodoById(){
-            this.$store.commit({
-                type: 'todo/updateTodoById',
-                content: this.todoEdited.content,
-                id: this.todoEdited.id
-            });
-        }
     }
 }
 </script>

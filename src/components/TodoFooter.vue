@@ -2,23 +2,16 @@
   <footer class="footer" v-show="hasTodos">
     <span class="todo-count"> {{ activeTodoCount }} items left </span>
     <ul class="filters">
-      <li>
-        <a href="#/" 
-            :class="{ selected : listFilter === 'ALL' }" 
-            @click.prevent="changeListFilter('ALL')">All</a>
-      </li>
-      <li>
-        <a href="#/active" 
-            :class="{ selected : listFilter === 'ACTIVE' }" 
-            @click.prevent="changeListFilter('ACTIVE')">Active</a>
-      </li>
-      <li>
-        <a href="#/completed" 
-            :class="{ selected : listFilter === 'COMPLETED' }" 
-            @click.prevent="changeListFilter('COMPLETED')">Completed</a>
+       <li v-for="filter in filters" :key="filter">
+        <a href="#" 
+            :class="{ selected : filter === curFilter }" 
+            @click.prevent="changeListFilter(filter)">
+            {{ mapFirstCharUpper(filter) }}
+        </a>
       </li>
     </ul>
-    <button class="clear-completed" 
+    <button 
+        class="clear-completed" 
         v-show="hasCompletedTodo" 
         @click="deleteAllCompletedTodos">
       Clear completed
@@ -29,33 +22,32 @@
 <script>
 import LIST_FILTER from "@/constants/todo/listFilter";
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo')
+
 export default {
     name: 'TodoFooter',
+    data: function(){
+        return {
+            filters: [LIST_FILTER.ALL, LIST_FILTER.ACTIVE, LIST_FILTER.COMPLETED],
+        }
+    },
     computed: {
-        listFilter(){
-            return this.$store.state.todo.listFilter;
-        },
-        hasTodos(){
-            return this.$store.state.todo.todos.length > 0;
-        },
+        ...mapState({
+            curFilter: state => state.listFilter,
+            hasTodos: state => state.todos.length > 0,
+        }),
+        ...mapGetters(['completedTodoCount', 'activeTodoCount']),
+
         hasCompletedTodo(){
-            return this.$store.getters['todo/completedTodoCount'] > 0;
-        },
-        activeTodoCount(){
-            return this.$store.getters['todo/activeTodoCount'];
+            return this.completedTodoCount > 0;
         }
     },
     methods: {
-        deleteAllCompletedTodos(){
-            this.$store.commit({
-                type: 'todo/deleteAllCompletedTodos',
-            })
-        },
-        changeListFilter(listFilter){
-            this.$store.commit({
-                type: 'todo/changeListFilter',
-                listFilter
-            })
+        ...mapMutations(['deleteAllCompletedTodos', 'changeListFilter']),
+        
+        mapFirstCharUpper(str){
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }
     }
 };

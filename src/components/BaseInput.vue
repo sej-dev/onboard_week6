@@ -2,6 +2,7 @@
   <input 
     :value="value"
     v-on="listeners"
+    ref="baseInput"
     />
 </template>
 
@@ -10,6 +11,9 @@
 export default {
     name: 'BaseInput',
     props: ['value'],
+    mounted() {
+        this.$refs.baseInput.focus();
+    },
     computed: {
         listeners: function(){
             const vm = this;

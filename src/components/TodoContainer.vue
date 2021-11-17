@@ -1,10 +1,12 @@
 <template>
-    <section class="main">
-        <input id="toggle-all" 
+  <section class="main">
+        <input 
+            id="toggle-all" 
             class="toggle-all" 
             type="checkbox"
-            :checked="isAllTodosActive"
-            @click="toggleAllTodoStatus">
+            :checked="isAllTodoActive"
+            @click="toggleAllTodosStatus" />
+            
         <label for="toggle-all">Mark all as complete</label>
         
         <todo-list />
@@ -17,22 +19,23 @@
 import TodoList from '@/components/TodoList.vue';
 import TodoFooter from '@/components/TodoFooter.vue';
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo')
+
 export default {
     name: 'TodoContainer',
     components: { TodoList, TodoFooter },
     computed: {
-        isAllTodosActive(){
-            const totalCount = this.$store.state.todo.todos.length;
-            console.log(this.$store.getters['todo/completedTodoCount'],totalCount)
-            return this.$store.getters['todo/completedTodoCount'] === totalCount;
+        ...mapState({
+            totalTodoCount: state => state.todos.length,
+        }),
+        ...mapGetters(['completedTodoCount']),
+        isAllTodoActive(){
+            return this.totalTodoCount === this.completedTodoCount;
         }
     },
     methods: {
-        toggleAllTodoStatus(){
-            this.$store.commit({
-                type: 'todo/toggleAllTodosStatus'
-            })
-        }
+        ...mapMutations(['toggleAllTodosStatus'])
     }
 }
 </script>
