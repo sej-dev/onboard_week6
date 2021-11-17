@@ -6,8 +6,8 @@
       class="new-todo"
       placeholder="What needs to be done?"
       :autofocus="true"
-      @blur="makeTodo" 
-      @keyup.enter="makeTodo" 
+      @blur="addNewTodo" 
+      @keyup.enter="addNewTodo" 
       v-on="$listeners"
     />
   </header>
@@ -17,7 +17,7 @@
 import BaseInput from '@/components/base/BaseInput.vue';
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapMutations } = createNamespacedHelpers('todo')
+const { mapMutations } = createNamespacedHelpers('todo');
 
 export default {
   name: 'TheHeader',
@@ -30,7 +30,7 @@ export default {
   methods: {
     ...mapMutations(['addTodo']),
     
-    makeTodo(){
+    addNewTodo(){
 
       if(this.content.trim().length === 0) return;
       
