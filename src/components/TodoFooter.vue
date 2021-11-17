@@ -6,7 +6,7 @@
         <a href="#" 
             :class="{ selected : filter === curFilter }" 
             @click.prevent="changeListFilter(filter)">
-            {{ mapFirstCharUpper(filter) }}
+            {{ filter | mapFirstCharUpper }}
         </a>
       </li>
     </ul>
@@ -46,9 +46,7 @@ export default {
     methods: {
         ...mapMutations(['deleteAllCompletedTodos', 'changeListFilter']),
         
-        mapFirstCharUpper(str){
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        }
+        
     }
 };
 </script>
