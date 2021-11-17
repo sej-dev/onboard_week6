@@ -49,25 +49,25 @@ const mutations = {
     },
     
     [types.UPDATE_TODO_BY_ID](state, payload){
-        const {id, content} = payload;
+        const {id, content, status} = payload;
+        
         const targetTodo = state.todos.find(todo => todo.id === id);
+        
         if(!targetTodo) return;
+
         targetTodo.content = content;
+        targetTodo.status = status;
     },
 
-    [types.TOGGLE_TODO_BY_ID](state, payload){
-        const id = id;
-        const targetTodo = state.todos.find(todo => todo.id === id);
-        if(!targetTodo) return;
-        targetTodo.status = targetTodo.status === TODO_STATUS.ACTIVE ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE;
-    },
     [types.TOGGLE_ALL_TODOS_STATUS](state){
         const totalCount = state.todos.length;
         const completedTodos = state.todos.filter(completedPredicate);
+        
         if(totalCount === completedTodos.length){
             completedTodos.map(todo => todo.status = TODO_STATUS.ACTIVE);
             return;
         } 
+        
         state.todos.map(todo => todo.status = TODO_STATUS.COMPLETED);
     },
 
