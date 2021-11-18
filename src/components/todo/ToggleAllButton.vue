@@ -4,7 +4,7 @@
       id="toggle-all" 
       class="toggle-all" 
       type="checkbox"
-      :checked="isAllTodoActive"
+      :checked="isAllTodoCompleted"
       @change="toggleAllTodosStatus"
     >        
     <label for="toggle-all">Mark all as complete</label>
@@ -22,8 +22,8 @@ export default {
     computed: {
         ...mapGetters(['hasTodos', 'getTodosCountByFilter']),
         
-        isAllTodoActive(){
-            return this.getTodosCountByFilter(LIST_FILTER.ALL) === this.getTodosCountByFilter(LIST_FILTER.ACTIVE);
+        isAllTodoCompleted(){
+            return this.getTodosCountByFilter(LIST_FILTER.ALL) === this.getTodosCountByFilter(LIST_FILTER.COMPLETED);
         }
     },
     methods: {

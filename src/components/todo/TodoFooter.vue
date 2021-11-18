@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import LIST_FILTER from '@/constants/todo/listFilter.vue';
-
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo');
+
+import LIST_FILTER from '@/constants/todo/listFilter';
 
 export default {
     name: 'TodoFooter',
