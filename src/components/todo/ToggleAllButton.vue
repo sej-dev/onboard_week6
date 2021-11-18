@@ -13,18 +13,17 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapGetters, mapMutations } = createNamespacedHelpers('todo')
+const { mapGetters, mapMutations } = createNamespacedHelpers('todo')
+
+import LIST_FILTER from "@/constants/todo/listFilter";
 
 export default {
     name: 'ToggleAllButton',
     computed: {
-         ...mapState({
-            totalTodoCount: state => state.todos.length,
-        }),
-        ...mapGetters(['hasTodos', 'completedTodoCount']),
+        ...mapGetters(['hasTodos', 'getTodosCountByFilter']),
         
         isAllTodoActive(){
-            return this.totalTodoCount === this.completedTodoCount;
+            return this.getTodosCountByFilter(LIST_FILTER.ALL) === this.getTodosCountByFilter(LIST_FILTER.ACTIVE);
         }
     },
     methods: {

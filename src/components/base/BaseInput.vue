@@ -20,7 +20,7 @@ export default {
             });
         },
     },
-    mounted() {
+    updated() {
         this.$refs.baseInput.focus();
     },
 };

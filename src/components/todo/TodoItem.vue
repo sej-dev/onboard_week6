@@ -14,7 +14,7 @@
       />
     </div>
     <base-input
-      v-if="isEditing"
+      v-show="isEditing"
       v-model="todoContent"
       class="edit"
       v-on="$listeners"

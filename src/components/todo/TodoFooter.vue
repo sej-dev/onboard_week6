@@ -47,16 +47,17 @@ export default {
         ...mapState({
             curFilter: state => state.listFilter,
         }),
-        ...mapGetters(['hasTodos', 'completedTodoCount', 'activeTodoCount']),
+        ...mapGetters(['hasTodos', 'getTodosCountByFilter']),
 
+        activeTodoCount(){
+          return this.getTodosCountByFilter(LIST_FILTER.ACTIVE);
+        },
         hasCompletedTodo(){
-            return this.completedTodoCount > 0;
+            return this.getTodosCountByFilter(LIST_FILTER.COMPLETED) > 0;
         }
     },
     methods: {
         ...mapMutations(['deleteAllCompletedTodos', 'changeListFilter']),
-        
-        
     }
 };
 </script>

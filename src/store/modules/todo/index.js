@@ -25,19 +25,17 @@ const getters = {
         return state.todos.find(todo => todo.id === id);
     },
 
-    getActiveTodos: (state) => () => {
-        return state.todos.filter(activePredicate);
+    getTodosByFilter: (state) => (filter) => {
+        switch (filter) {
+            case LIST_FILTER.ALL: return state.todos;
+            case LIST_FILTER.ACTIVE: return state.todos.filter(activePredicate);
+            case LIST_FILTER.COMPLETED: return state.todos.filter(completedPredicate);
+            default: return [];
+        }
     },
-    activeTodoCount: (state, getters) => {
-        return getters.getActiveTodos().length;
+    getTodosCountByFilter: (state, getters) => (filter) => {
+        return getters.getTodosByFilter(filter).length;
     },
-    
-    getCompletedTodos: (state) => () => {
-        return state.todos.filter(completedPredicate);
-    },
-    completedTodoCount: (state, getters) => {
-        return state.todos.length - getters.activeTodoCount;
-    }
 };
 
 // 비동기 처리 
@@ -49,7 +47,11 @@ const actions = {
 const mutations = {
     [types.ADD_TODO](state, payload){
         const content = payload;
-        state.todos.push({ id : state._sequence++, status: TODO_STATUS.ACTIVE, content })
+        state.todos.push({ 
+            id : state._sequence++, 
+            status: TODO_STATUS.ACTIVE,
+            content 
+        });
     },
     
     [types.UPDATE_TODO_BY_ID](state, payload){
@@ -80,7 +82,7 @@ const mutations = {
         state.todos = state.todos.filter(todo => todo.id !== id);
     },
     [types.DELETE_ALL_COMPLETED_TODOS](state){
-        state.todos = state.todos.filter(todo => todo.status === TODO_STATUS.ACTIVE)
+        state.todos = state.todos.filter(activePredicate)
     },
 
     [types.CHANGE_LIST_FILTER](state, payload){
