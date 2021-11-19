@@ -35,15 +35,21 @@ import TODO_STATUS from '@/constants/todo/todoStatus';
 export default {
   name: "TodoItem",
   components: { BaseInput },
+  
   props: {
+    
     id: Number,
+    
     content: String,
+    
     status: {
       validator: function (value) {
         return TODO_STATUS[value] !== null;
       },
     },
+    
   },
+
   data: function () {
     return {
       todoContent: this.content,

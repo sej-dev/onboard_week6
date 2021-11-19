@@ -3,7 +3,7 @@
     v-show="hasTodos"
     class="footer"
   >
-    <span class="todo-count"> {{ activeTodoCount }} items left </span>
+    <span class="todo-count"> {{ activeTodoCount }} {{ activeTodoCount === 1 ? 'items' : 'item' }} left </span>
 
     <ul class="filters">
       <li
